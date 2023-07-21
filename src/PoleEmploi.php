@@ -6,34 +6,35 @@ use Illuminate\Support\Collection;
 
 class PoleEmploi
 {
-    public PoleEmploiClient $furiousClient;
+    public PoleEmploiClient $poleEmploiClient;
 
-    public function __construct(PoleEmploiClient $furiousClient)
+    public function __construct(PoleEmploiClient $poleEmploiClient)
     {
-        $this->furiousClient = $furiousClient;
+        $this->poleEmploiClient = $poleEmploiClient;
     }
 
-    /**
-     * @param null $variable
-     * @param null $value
-     * @param string $operator
-     * @param string $oderBy
-     * @return Collection
-     */
-    public function getCompanies($variable = null, $value = null, string $operator = 'eq', string $oderBy = 'id'): Collection
-    {
-        if($variable and $value){
-            $filter = self::addFilter($variable, $value, $operator);
-        } else {
-            $filter = null;
-        }
 
-        return $this->furiousClient->getResources(
-            'company',
-            'Company',
-            '{id,main_client_id,name,address,address2,zipcode,city,country,phone,url,category}}',
-            $filter,
-            $oderBy
-        );
+    public function getCompanies(string $appellation): Collection
+    {
+//        $headers = [
+//            'Content-Type' => 'application/x-www-form-urlencoded',
+//        ];
+//        $options = [
+//            'form_params' => [
+//                'grant_type' => 'client_credentials',
+//                'client_id' => env('POLE_EMPLOI_CLIENT_ID'),
+//                'client_secret' => env('POLE_EMPLOI_CLIENT_SECRET'),
+//                'scope' => env('POLE_EMPLOI_SCOPE'),
+//            ]];
+//        $guzzle_request = new \GuzzleHttp\Psr7\Request('POST', 'https://entreprise.pole-emploi.fr/connexion/oauth2/access_token?realm=/partenaire', $headers);
+//        $res = $this->poleEmploiClient->sendAsync($guzzle_request, $options)->wait();
+//        $token = json_decode($res->getBody())->access_token;
+//
+//        $headers = [
+//            'Authorization' => 'Bearer ' . $token
+//        ];
+//        $guzzle_request = new \GuzzleHttp\Psr7\Request('GET', 'https://api.pole-emploi.io/partenaire/rome-metiers/v1/metiers/appellation/' . $appellation->code, $headers);
+//        $res = $this->poleEmploiClient->sendAsync($guzzle_request)->wait();
+//        return json_decode($res->getBody());
     }
 }

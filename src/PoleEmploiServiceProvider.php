@@ -3,7 +3,8 @@
 namespace App\PoleEmploi;
 
 use App\Furious\Furious;
-use Ogrre\PoleEmploi\PoleEmploiClient;
+use Ogrre\Laravel\PoleEmploi\PoleEmploi;
+use Ogrre\Laravel\PoleEmploi\PoleEmploiClient;
 use Illuminate\Support\ServiceProvider;
 
 class PoleEmploiServiceProvider extends ServiceProvider
@@ -27,6 +28,6 @@ class PoleEmploiServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->app->alias(Furious::class, 'Furious');
+        $this->app->alias(PoleEmploi::class, 'PoleEmploi');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ogrre\PoleEmploi;
+namespace Ogrre\Laravel\PoleEmploi;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Promise\PromiseInterface;
@@ -12,7 +12,6 @@ class PoleEmploiClient
 {
     private Client $client;
     private string $realm;
-
     private string $token;
 
     /**
@@ -32,7 +31,7 @@ class PoleEmploiClient
      * @param string $endpoint
      * @return PromiseInterface|Response
      */
-    public function base(string $method, string $endpoint)
+    public function base(string $method, string $endpoint): PromiseInterface|Response
     {
         $headers = [
             'Authorization' => 'Bearer ' . $this->token
@@ -46,7 +45,7 @@ class PoleEmploiClient
     /**
      * @return array|mixed
      */
-    public function authToken()
+    public function authToken(): mixed
     {
         $headers = [
             'Content-Type' => 'application/x-www-form-urlencoded',
