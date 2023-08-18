@@ -17,7 +17,7 @@ class PoleEmploi
     /**
      * @param array $body
      * @param bool $feedback
-     * @return mixed
+     * @return PromiseInterface|Response
      */
     public function appellationMetier(array $body, bool $feedback = false)
     {
