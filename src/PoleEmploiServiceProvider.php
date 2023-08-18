@@ -1,10 +1,7 @@
 <?php
 
-namespace App\PoleEmploi;
+namespace Ogrre\Laravel\PoleEmploi;
 
-use App\Furious\Furious;
-use Ogrre\Laravel\PoleEmploi\PoleEmploi;
-use Ogrre\Laravel\PoleEmploi\PoleEmploiClient;
 use Illuminate\Support\ServiceProvider;
 
 class PoleEmploiServiceProvider extends ServiceProvider
@@ -19,6 +16,10 @@ class PoleEmploiServiceProvider extends ServiceProvider
         $this->app->singleton(PoleEmploiClient::class, function () {
             return new PoleEmploiClient();
         });
+
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/pole-emploi.php', 'pole-emploi'
+        );
     }
 
     /**
@@ -29,5 +30,9 @@ class PoleEmploiServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->app->alias(PoleEmploi::class, 'PoleEmploi');
+
+        $this->publishes([
+            __DIR__.'/../config/cpole-emploi.php' => config_path('pole-emploi.php'),
+        ], 'config');
     }
 }

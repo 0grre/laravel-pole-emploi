@@ -31,7 +31,7 @@ class PoleEmploiClient
      * @param string $endpoint
      * @return PromiseInterface|Response
      */
-    public function base(string $method, string $endpoint): PromiseInterface|Response
+    public function base(string $method, string $endpoint)
     {
         $headers = [
             'Authorization' => 'Bearer ' . $this->token
