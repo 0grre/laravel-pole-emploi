@@ -2,82 +2,72 @@
 
 namespace Ogrre\Laravel\PoleEmploi;
 
-use GuzzleHttp\Promise\PromiseInterface;
-use Illuminate\Http\Client\Response;
+use Ogrre\Laravel\PoleEmploi\Models\Metier;
+use Ogrre\Laravel\PoleEmploi\Traits\HasClient;
 
 class PoleEmploi
 {
-    public PoleEmploiClient $poleEmploiClient;
-
-    public function __construct(PoleEmploiClient $poleEmploiClient)
-    {
-        $this->poleEmploiClient = $poleEmploiClient;
-    }
+    use HasClient;
 
     /**
      * @param array $body
      * @param bool $feedback
-     * @return PromiseInterface|Response
+     * @return array
      */
-    public function appellationMetier(array $body, bool $feedback = false)
+    public function appellationMetier(array $body, bool $feedback = false): array
     {
         $endpoint = $feedback ? 'appellationmetier_feedback' : 'appelationmetier';
 
-        return $this->poleEmploiClient->base('POST', 'appellationmetier/v1/' . $endpoint, $body);
+        return (array) $this->client->base('POST', 'appellationmetier/v1/' . $endpoint, $body);
     }
 
     /**
      * @param string $libelle
      * @param string $number
      * @param string $type
-     * @return PromiseInterface|Response
+     * @return array
      */
-    public function explorateurMetiers(string $libelle, string $number, string $type)
+    public function explorateurMetiers(string $libelle, string $number, string $type): array
     {
-        return $this->poleEmploiClient->base('GET', 'explorateurmetiers/v1/explorateurmetiers?libelle=' . $libelle . '&nombre=' . $number . '&type=' . $type);
+        return (array) $this->client->base('GET',
+            'explorateurmetiers/v1/explorateurmetiers?libelle=' . $libelle . '&nombre=' . $number . '&type=' . $type);
     }
 
     /**
-     * @return PromiseInterface|Response
      */
-    public function competences()
+    public function competences(): array
     {
-        return $this->poleEmploiClient->base('GET', '');
+        return (array) $this->client->base('GET', '');
     }
 
     /**
-     * @param string $libelle
-     * @return PromiseInterface|Response
-     */
-    public function metiers(string $libelle)
-    {
-        return $this->poleEmploiClient->base('GET', '');
-    }
-
-    /**
-     * @return PromiseInterface|Response
-     */
-    public function contextesDeTravail(string $code = null, string $fields = null)
-    {
-        $request = '';
-        if ($code) {
-            $request = $fields ? $code . '?champs=' . $fields : $code;
-        }
-        return $this->poleEmploiClient->base('GET', 'rome-contextes-travail/v1/situations-travail/contexte-travail/' . $request);
-    }
-
-    /**
-     * @param string|null $code
+     * @param string $code
      * @param string|null $fields
-     * @return PromiseInterface|Response
+     * @return array
      */
-    public function ficheMetiers(string $code = null, string $fields = null)
+    public function contextesDeTravail(string $code, string $fields = null): array
     {
-        $request = '';
-        if ($code) {
-            $request = $fields ? $code . '?champs=' . $fields : $code;
-        }
-
-        return $this->poleEmploiClient->base('GET', 'rome-fiches-metiers/v1/fiches-rome/fiche-metier/' . $request);
+        return (array) $this->client->base('GET',
+            'rome-contextes-travail/v1/situations-travail/contexte-travail/' . self::request($code, $fields));
     }
+
+    /**
+     * @param string $code
+     * @param string|null $fields
+     * @return array
+     */
+    public function ficheMetiers(string $code, string $fields = null): array
+    {
+        return (array) $this->client->base('GET',
+            'rome-fiches-metiers/v1/fiches-rome/fiche-metier/' . self::request($code, $fields));
+    }
+
+    /**
+     * @return Metier
+     */
+    public function metiers()
+    {
+        return new Metier($this->client);
+    }
+
 }

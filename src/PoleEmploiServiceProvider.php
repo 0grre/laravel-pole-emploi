@@ -32,7 +32,7 @@ class PoleEmploiServiceProvider extends ServiceProvider
         $this->app->alias(PoleEmploi::class, 'PoleEmploi');
 
         $this->publishes([
-            __DIR__.'/../config/cpole-emploi.php' => config_path('pole-emploi.php'),
+            __DIR__.'/../config/pole-emploi.php' => config_path('pole-emploi.php'),
         ], 'config');
     }
 }

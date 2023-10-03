@@ -29,9 +29,9 @@ class PoleEmploiClient
     /**
      * @param string $method
      * @param string $endpoint
-     * @return PromiseInterface|Response
+     * @return array
      */
-    public function base(string $method, string $endpoint)
+    public function base(string $method, string $endpoint): array
     {
         $headers = [
             'Authorization' => 'Bearer ' . $this->token
@@ -39,7 +39,7 @@ class PoleEmploiClient
         $guzzle_request = new Request($method, 'https://api.pole-emploi.io/'. $this->realm .'/' . $endpoint, $headers);
         $res = $this->client->sendAsync($guzzle_request)->wait();
 
-        return json_decode($res->getBody());
+        return (array) json_decode($res->getBody());
     }
 
     /**
