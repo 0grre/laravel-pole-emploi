@@ -29,15 +29,14 @@ class PoleEmploi
      */
     public function explorateurMetiers(string $libelle, string $number, string $type): array
     {
-        return (array) $this->client->base('GET',
-            'explorateurmetiers/v1/explorateurmetiers?libelle=' . $libelle . '&nombre=' . $number . '&type=' . $type);
+        return self::request('explorateurmetiers/v1/explorateurmetiers?libelle=' . $libelle . '&nombre=' . $number . '&type=' . $type);
     }
 
     /**
      */
     public function competences(): array
     {
-        return (array) $this->client->base('GET', '');
+        return new Competence($this->client);
     }
 
     /**
@@ -47,8 +46,7 @@ class PoleEmploi
      */
     public function contextesDeTravail(string $code, string $fields = null): array
     {
-        return (array) $this->client->base('GET',
-            'rome-contextes-travail/v1/situations-travail/contexte-travail/' . self::request($code, $fields));
+        return self::request('rome-contextes-travail/v1/situations-travail/contexte-travail/', $code, $fields);
     }
 
     /**
@@ -58,8 +56,7 @@ class PoleEmploi
      */
     public function ficheMetiers(string $code, string $fields = null): array
     {
-        return (array) $this->client->base('GET',
-            'rome-fiches-metiers/v1/fiches-rome/fiche-metier/' . self::request($code, $fields));
+        return self::request('rome-fiches-metiers/v1/fiches-rome/fiche-metier/', $code, $fields);
     }
 
     /**
